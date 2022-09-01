@@ -1,8 +1,4 @@
 
-provider "aws" {
-  region     = var.aws_region
-}
-
 data "template_file" "fgt_userdata_byol1" {
   template = file("./config_templates/fgt-userdata-byol.tpl")
 
