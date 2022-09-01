@@ -34,6 +34,10 @@ given deployment. A few of the main customization variables include:
 
     numerous other options...
 
+If the Fortigates or Fortimanager are using BYOL licenses, place the *.lic files in the licenses directory.
+
+Fortigate and Linux instance userdata templates are in the config_templates directory. Modify as needed.
+
 This set of templates conditionally creates an AWS Transit Gateway (TGW), 
 an East VPC and West VPC with Linux instances in each (See Diagram). 
 
