@@ -62,8 +62,8 @@ use_fortigate_byol                    = true
 #
 keypair                     = "mdw-key-oregon"
 
-customer_prefix             = "mdw"
-environment                 = "dev"
+customer_prefix             = "prefix"
+environment                 = "env"
 fortigate_sg_name           = "fortigate"
 
 availability_zone_1         = "us-west-2a"
