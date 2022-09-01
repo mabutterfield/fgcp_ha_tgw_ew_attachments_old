@@ -20,17 +20,18 @@ This set of Terraform templates uses submodules and should be cloned using the f
 A terraform.tfvars.example file is provided as a template. This should be copied to terraform.tfvars and customized for
 given deployment. A few of the main customization variables include:
 
-    aws_region:                         # Region to deploy the VPC
+    aws_region = "us-west-2"            # Region to deploy the VPC
     create_transit_gateway = true/false # turn on/off the creation of the TGW and everything South
     enable_linux_instance = true/false  # if the transit gateway is enabled, turn on/off the Linux instances
     enable_fortimanager = true/false    # deploy a FortiManager
     keypair = ""                        # provide a region specific keypair for Fortigate/Linxu instances
     fortios_version = "7.2.1"           # Provide the FortiOS version matching string for correct selection of AMI
-    
+    fgt_admin_password = ""             # Initial admin password for login to the FortiOS GUI
     customer_prefix = ""                # This string will be prepended to all template resources 
     environment = ""                    # Additional id string in all template resources (prod/dev/test/etc.)
     fortigate_instance_type = ""        # aws instance type for Fortigates
     linux_instance_type = ""            # Linux test instance types
+    
 
     numerous other options...
 

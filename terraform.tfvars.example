@@ -1,5 +1,23 @@
 
 aws_region                  = "us-west-2"
+
+#
+# Variables likely to change
+#
+keypair                     = ""
+
+customer_prefix             = "prefix"
+environment                 = "env"
+
+
+fgt_admin_password          = "Texas4me!"
+fortios_version             = "7.2.1"
+fgt_byol_1_license          = "./licenses/fgt1-license.lic"
+fgt_byol_2_license          = "./licenses/fgt2-license.lic"
+
+availability_zone_1         = "us-west-2a"
+availability_zone_2         = "us-west-2c"
+
 #
 # Booleans to enable certain features
 #
@@ -16,6 +34,7 @@ enable_linux_instances                = true
 #
 # Conditional for configuring the elastic IPs. Set management IPs to false if managing through direct connect
 # Set public elastic ip to false if the HA Failover IP is not needed (e.g. behind a secondary NAT device).
+#
 # Changing the UDR will be sufficient for failover
 #
 create_public_elastic_ip              = true
@@ -56,18 +75,6 @@ create_transit_gateway                = true
 # How to license the fortigate
 #
 use_fortigate_byol                    = true
-
-#
-# Variables likely to change
-#
-keypair                     = "mdw-key-oregon"
-
-customer_prefix             = "prefix"
-environment                 = "env"
-fortigate_sg_name           = "fortigate"
-
-availability_zone_1         = "us-west-2a"
-availability_zone_2         = "us-west-2c"
 
 #
 # VPC CIDR's
@@ -132,13 +139,10 @@ fortigate_instance_type     = "c5n.xlarge"
 fortigate_instance_name_1   = "Fortigate One HA Pair"
 fortigate_instance_name_2   = "Fortigate Two HA Pair"
 acl                         = "private"
-fortios_version             = "7.2.1"
-fgt_byol_1_license          = "./licenses/fgt1-license.lic"
-fgt_byol_2_license          = "./licenses/fgt2-license.lic"
 fgt_ha_password             = "pocpassword727"
-fgt_admin_password          = "Texas4me!"
 fortigate_hostname_1        = "fgt-active"
 fortigate_hostname_2        = "fgt-passive"
+fortigate_sg_name           = "fortigate"
 
 #
 # Endpoints Variables
