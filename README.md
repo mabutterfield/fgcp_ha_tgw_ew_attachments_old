@@ -13,7 +13,29 @@ This set of templates uses the Dual AZ FGCP AP HA setup described in this repo: 
 
 ** Please be sure to read the README in this repository for discussion on Failover, VPC Configuration, Fortigate FGCP Configuration, etc.
 
-This set of templates also creates a AWS Transit Gateway (TGW), an East VPC and West VPC with Linux instances in each. 
+This set of Terraform templates uses submodules and should be cloned using the following command:
+
+    git clone --recurse-submodules <repo>
+
+A terraform.tfvars.example file is provided as a template. This should be copied to terraform.tfvars and customized for
+given deployment. A few of the main customization variables include:
+
+    aws_region:                         # Region to deploy the VPC
+    create_transit_gateway = true/false # turn on/off the creation of the TGW and everything South
+    enable_linux_instance = true/false  # if the transit gateway is enabled, turn on/off the Linux instances
+    enable_fortimanager = true/false    # deploy a FortiManager
+    keypair = ""                        # provide a region specific keypair for Fortigate/Linxu instances
+    fortios_version = "7.2.1"           # Provide the FortiOS version matching string for correct selection of AMI
+    
+    customer_prefix = ""                # This string will be prepended to all template resources 
+    environment = ""                    # Additional id string in all template resources (prod/dev/test/etc.)
+    fortigate_instance_type = ""        # aws instance type for Fortigates
+    linux_instance_type = ""            # Linux test instance types
+
+    numerous other options...
+
+This set of templates conditionally creates an AWS Transit Gateway (TGW), 
+an East VPC and West VPC with Linux instances in each (See Diagram). 
 
 The purpose of this set of templates is to demonstrate east-west inspection between the east vpc and west vpc
 using Transit Gateway Attachments, rather than VPN connections to the Fortigate HA Pair. Therefore, these templates also create the 
@@ -34,18 +56,6 @@ To ssh into the Linux Instances:
     EAST: ssh -i <path to key pair file> ubuntu@(EIP of Fortigate HA PAIR) -p 2222
     WEST: ssh -i <path to key pair file> ubuntu@(EIP of Fortigate HA PAIR) -p 2223
 
-## Terraform Templates
-Terraform templates are available to simplify the deployment process and are available on the Fortinet GitHub repo. Here is the direct link to the [Fortinet Repo](https://github.com/fortinetsolutions/terraform-modules/).
-
-These templates include Terraform templates for other public clouds. The templates for this repository can be found in AWS/main_scripts
-These templates utilize modules for setting up the base vpc for a dual az fgcp deployment and various modules for creating 
-VPCs, Route Tables, etc. These can be found in the following directories:
-
-  - [BaseVPC_FGCP_DualAZ] - ./AWS/main_script/base_vpc_dual_az
-  - [Modules] - ./AWS/modules
-  - [Main File for specific variables used to deploy] - ./AWS/fgcp_ha_tgw_ew_attachments/terraform.tfvars
-  - [Terraform setup script]- ./AWS/fgcp_ha_tgw_ew_attachments/new_venv_environment.sh
-  
   To deploy the Terraform templates, the repository includes a setup script for creating a Terraform virtual environment (venv).
   This setup script may not work for every environment, but should work for "APT" based linux distros. If you have a functioning 
   Terraform deployment environment, this script is unnecessary. If not, run the script and provide answers to the interactive script,
