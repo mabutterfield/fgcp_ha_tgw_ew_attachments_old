@@ -1,3 +1,9 @@
 [submodule "terraform-modules"]
 	path = terraform-modules
 	url = git@github.com:40netse/terraform-modules.git
+[submodule "base_vpc_dual_az"]
+	path = base_vpc_dual_az
+	url = git@github.com:40netse/base_vpc_dual_az.git
+[submodule "fortimanager_existing_vpc"]
+	path = fortimanager_existing_vpc
+	url = git@github.com:40netse/fortimanager_existing_vpc.git

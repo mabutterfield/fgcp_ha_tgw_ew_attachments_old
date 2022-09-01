@@ -162,7 +162,7 @@ data "aws_ami" "fortigate_paygo" {
 # This is an "allow all" security group, but a place holder for a more strict SG
 #
 module "allow_private_subnets" {
-  source = "../../modules/security_group"
+  source = "./terraform-modules/aws_security_group"
   aws_region              = var.aws_region
   vpc_id                  = module.base-vpc.vpc_id
   name                    = "${var.fortigate_sg_name} Allow Private Subnets"
@@ -182,7 +182,7 @@ module "allow_private_subnets" {
 # This is an "allow all" security group, but a place holder for a more strict SG
 #
 module "allow_public_subnets" {
-  source = "../../modules/security_group"
+  source = "./terraform-modules/aws_security_group"
   aws_region              = var.aws_region
   vpc_id                  = module.base-vpc.vpc_id
   name                    = "${var.fortigate_sg_name} Allow Public Subnets"
@@ -206,7 +206,7 @@ module "allow_public_subnets" {
 # Security VPC, IGW, Subnets, Route Tables, Route Table Associations, VPC Endpoint
 #
 module "base-vpc" {
-  source                          = "../base_vpc_dual_az"
+  source                          = "./base_vpc_dual_az"
   aws_region                      = var.aws_region
   customer_prefix                 = var.customer_prefix
   environment                     = var.environment
@@ -227,7 +227,7 @@ module "base-vpc" {
 
 module "vpc-transit-gateway" {
   count                           = var.create_transit_gateway ? 1 : 0
-  source                          = "../../modules/tgw"
+  source                          = "./terraform-modules/aws_tgw"
   aws_region                      = var.aws_region
   customer_prefix                 = var.customer_prefix
   environment                     = var.environment
@@ -261,7 +261,7 @@ resource "aws_route" "tgw2" {
 #
 module "vpc-transit-gateway-attachment-security" {
   count                                           = var.create_transit_gateway ? 1 : 0
-  source                                          = "../../modules/tgw-attachment"
+  source                                          = "./terraform-modules/aws_tgw_attachment"
   aws_region                                      = var.aws_region
   customer_prefix                                 = var.customer_prefix
   environment                                     = var.environment
@@ -305,7 +305,7 @@ resource "aws_ec2_transit_gateway_route" "tgw_route_security_cidr" {
 #
 module "vpc-transit-gateway-attachment-east" {
   count                                           = var.create_transit_gateway ? 1 : 0
-  source                                          = "../../modules/tgw-attachment"
+  source                                          = "./terraform-modules/aws_tgw_attachment"
   aws_region                                      = var.aws_region
   customer_prefix                                 = var.customer_prefix
   environment                                     = var.environment
@@ -346,7 +346,7 @@ resource "aws_ec2_transit_gateway_route" "tgw_route_east_cidr" {
 #
 module "vpc-transit-gateway-attachment-west" {
   count                           = var.create_transit_gateway ? 1 : 0
-  source                          = "../../modules/tgw-attachment"
+  source                          = "./terraform-modules/aws_tgw_attachment"
   aws_region                      = var.aws_region
   customer_prefix                 = var.customer_prefix
   environment                     = var.environment
@@ -399,7 +399,7 @@ resource "aws_default_route_table" "route_security" {
 # These route tables point to the ENI of the ACTIVE Fortigate
 #
 module "private1-subnet-tgw" {
-  source = "../../modules/subnet"
+  source = "./terraform-modules/aws_subnet"
 
   aws_region                 = var.aws_region
   environment                = var.environment
@@ -411,7 +411,7 @@ module "private1-subnet-tgw" {
 }
 
 module "private1_tgw_route_table" {
-  source                     = "../../modules/route_table"
+  source                     = "./terraform-modules/aws_route_table"
 
   aws_region                 = var.aws_region
   customer_prefix            = var.customer_prefix
@@ -423,7 +423,7 @@ module "private1_tgw_route_table" {
 }
 
 module "private1_tgw_route_table_association" {
-  source                     = "../../modules/route_table_association"
+  source                     = "./terraform-modules/aws_route_table_association"
 
   aws_region                 = var.aws_region
   customer_prefix            = var.customer_prefix
@@ -433,7 +433,7 @@ module "private1_tgw_route_table_association" {
 }
 
 module "private2-subnet-tgw" {
-  source = "../../modules/subnet"
+  source = "./terraform-modules/aws_subnet"
 
   aws_region                 = var.aws_region
   environment                = var.environment
@@ -445,7 +445,7 @@ module "private2-subnet-tgw" {
 }
 
 module "private2_tgw_route_table" {
-  source                     = "../../modules/route_table"
+  source                     = "./terraform-modules/aws_route_table"
 
   aws_region                 = var.aws_region
   customer_prefix            = var.customer_prefix
@@ -457,7 +457,7 @@ module "private2_tgw_route_table" {
 }
 
 module "private2_tgw_route_table_association" {
-  source                     = "../../modules/route_table_association"
+  source                     = "./terraform-modules/aws_route_table_association"
 
   aws_region                 = var.aws_region
   customer_prefix            = var.customer_prefix
@@ -467,7 +467,7 @@ module "private2_tgw_route_table_association" {
 }
 
 module "sync-subnet-1" {
-  source = "../../modules/subnet"
+  source = "./terraform-modules/aws_subnet"
 
   aws_region                 = var.aws_region
   environment                = var.environment
@@ -479,7 +479,7 @@ module "sync-subnet-1" {
 }
 
 module "sync-subnet-2" {
-  source = "../../modules/subnet"
+  source = "./terraform-modules/aws_subnet"
 
   aws_region                 = var.aws_region
   environment                = var.environment
@@ -491,7 +491,7 @@ module "sync-subnet-2" {
 }
 
 module "ha-subnet-1" {
-  source = "../../modules/subnet"
+  source = "./terraform-modules/aws_subnet"
 
   aws_region                 = var.aws_region
   environment                = var.environment
@@ -505,7 +505,7 @@ module "ha-subnet-1" {
 }
 
 module "ha-subnet-2" {
-  source = "../../modules/subnet"
+  source = "./terraform-modules/aws_subnet"
 
   aws_region                 = var.aws_region
   environment                = var.environment
@@ -522,7 +522,7 @@ module "ha-subnet-2" {
 # VPC Endpoint for AWS API Calls
 #
 module "vpc_s3_endpoint" {
-  source                     = "../../modules/vpc_endpoints"
+  source                     = "./terraform-modules/aws_vpc_endpoints"
 
   aws_region                 = var.aws_region
   customer_prefix            = var.customer_prefix
@@ -535,7 +535,7 @@ module "vpc_s3_endpoint" {
 # East VPC
 #
 module "vpc-east" {
-  source = "../../modules/vpc"
+  source = "./terraform-modules/aws_vpc"
   count                      = var.create_transit_gateway ? 1 : 0
   aws_region                 = var.aws_region
   environment                = var.environment
@@ -545,7 +545,7 @@ module "vpc-east" {
 }
 
 module "subnet-east" {
-  source = "../../modules/subnet"
+  source = "./terraform-modules/aws_subnet"
   count                      = var.create_transit_gateway ? 1 : 0
   aws_region                 = var.aws_region
   environment                = var.environment
@@ -574,7 +574,7 @@ resource "aws_default_route_table" "route_east" {
 }
 
 module "rta-east" {
-  source = "../../modules/route_table_association"
+  source = "./terraform-modules/aws_route_table_association"
   count                      = var.create_transit_gateway ? 1 : 0
   aws_region                 = var.aws_region
   environment                = var.environment
@@ -588,7 +588,7 @@ module "rta-east" {
 # West VPC
 #
 module "vpc-west" {
-  source = "../../modules/vpc"
+  source = "./terraform-modules/aws_vpc"
   count                      = var.create_transit_gateway ? 1 : 0
   aws_region                 = var.aws_region
   environment                = var.environment
@@ -599,7 +599,7 @@ module "vpc-west" {
 }
 
 module "subnet-west" {
-  source = "../../modules/subnet"
+  source = "./terraform-modules/aws_subnet"
   count                      = var.create_transit_gateway ? 1 : 0
   aws_region                 = var.aws_region
   environment                = var.environment
@@ -626,7 +626,7 @@ resource "aws_default_route_table" "route_west" {
 }
 
 module "rta-west" {
-  source = "../../modules/route_table_association"
+  source = "./terraform-modules/aws_route_table_association"
   count                      = var.create_transit_gateway ? 1 : 0
   aws_region                 = var.aws_region
   environment                = var.environment
@@ -639,7 +639,7 @@ module "rta-west" {
 # Fortigate HA Pair and IAM Profiles
 #
 module "iam_profile" {
-  source = "../../modules/fortigate_ha_instance_iam_role"
+  source = "./terraform-modules/aws_fortigate_ha_instance_iam_role"
 
   aws_region                  = var.aws_region
   customer_prefix             = var.customer_prefix
@@ -647,7 +647,7 @@ module "iam_profile" {
 }
 
 module "fortigate_1" {
-  source                      = "../../modules/ec2_instance"
+  source                      = "./terraform-modules/aws_ec2_instance"
 
   aws_region                  = var.aws_region
   availability_zone           = var.availability_zone_1
@@ -678,7 +678,7 @@ module "fortigate_1" {
 }
 
 module "fortigate_2" {
-  source                      = "../../modules/ec2_instance"
+  source                      = "./terraform-modules/aws_ec2_instance"
 
   aws_region                  = var.aws_region
   availability_zone           = var.availability_zone_2
@@ -744,7 +744,7 @@ data "aws_ami" "ubuntu" {
 # Security Groups are VPC specific, so an "ALLOW ALL" for each VPC
 #
 module "ec2-east-sg" {
-  source = "../../modules/security_group"
+  source = "./terraform-modules/aws_security_group"
   count                   = var.create_transit_gateway ? 1 : 0
   aws_region              = var.aws_region
   vpc_id                  = module.vpc-east[0].vpc_id
@@ -763,7 +763,7 @@ module "ec2-east-sg" {
 
 
 module "ec2-west-sg" {
-  source = "../../modules/security_group"
+  source = "./terraform-modules/aws_security_group"
   count                 = var.create_transit_gateway ? 1 : 0
   aws_region              = var.aws_region
   vpc_id                  = module.vpc-west[0].vpc_id
@@ -784,7 +784,7 @@ module "ec2-west-sg" {
 # IAM Profile for linux instance
 #
 module "linux_iam_profile" {
-  source = "../../modules/ec2_instance_iam_role"
+  source = "./terraform-modules/aws_ec2_instance_iam_role"
   count                       = var.create_transit_gateway && var.enable_linux_instances ? 1 : 0
   aws_region                  = var.aws_region
   customer_prefix             = var.customer_prefix
@@ -795,7 +795,7 @@ module "linux_iam_profile" {
 # East Linux Instance for Generating East->West Traffic
 #
 module "east_instance" {
-  source                      = "../../modules/ec2_instance"
+  source                      = "./terraform-modules/aws_ec2_instance"
   count                       = var.create_transit_gateway && var.enable_linux_instances ? 1 : 0
 
   aws_region                  = var.aws_region
@@ -819,7 +819,7 @@ module "east_instance" {
 # West Linux Instance for Generating West->East Traffic
 #
 module "west_instance" {
-  source                      = "../../modules/ec2_instance"
+  source                      = "./terraform-modules/aws_ec2_instance"
   count                       = var.create_transit_gateway && var.enable_linux_instances ? 1 : 0
 
   aws_region                  = var.aws_region
@@ -843,7 +843,7 @@ module "west_instance" {
 # Fortimanager
 #
 module "fortimanager" {
-  source                      = "../deploy_fortimanager_existing_vpc"
+  source                      = "./fortimanager_existing_vpc"
   count                       = var.enable_fortimanager ? 1 : 0
 
   aws_region                  = var.aws_region
